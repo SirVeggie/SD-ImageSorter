@@ -2,11 +2,12 @@
 using Apprentice.Personal.Tools;
 
 int arguments = args.Length;
+FileInfo regexFile = new($@"{new FileInfo(Environment.ProcessPath!).DirectoryName}\default_regex.txt");
+string regex = regexFile.Exists ? File.ReadAllText(regexFile.FullName) : @"(nsfw|nude)(?<!Negative prompt[\s\S]*)";
 
 if (arguments == 0) {
     string source = Directory.GetCurrentDirectory();
     string target = $@"{source}\sorted";
-    string regex = "nude|sex|pussy|cum|fellatio|blow ?job";
 
     Console.WriteLine("You can also use command line arguments: source_dir target_dir regex");
     Console.Write($"Give source directory ({source}):\n > ");
@@ -17,11 +18,11 @@ if (arguments == 0) {
     Console.Write($"Give target directory ({target}):\n > ");
     string targetInput = Console.ReadLine() ?? "";
     target = string.IsNullOrWhiteSpace(targetInput) ? target : targetInput;
-    if (!target.Contains("\\"))
+    if (!target.Contains('\\'))
         target = $@"{source}\{target}";
     Console.WriteLine();
 
-    DirectoryInfo targetInfo = new DirectoryInfo(target);
+    DirectoryInfo targetInfo = new(target);
     if (!targetInfo.Exists) {
         if (string.IsNullOrWhiteSpace(targetInput) || target.Contains(source))
             targetInfo.Create();
@@ -39,10 +40,17 @@ if (arguments == 0) {
     return;
 }
 
-if (arguments != 3) {
-    Console.WriteLine("Invalid amount of arguments");
+if (2 <= arguments && arguments <= 3) {
+    Console.WriteLine($"Running image sorting with values\nSource: {args[0]}\nTarget: {args[1]}Regex: {args[2]}");
+    string source = args[0];
+    string target = args[1];
+    if (!target.Contains('\\'))
+        target = $@"{source}\{target}";
+    if (arguments == 3) {
+        regex = args[2];
+    }
+    ImageSorter.SortFiles(source, target, regex);
     return;
 }
 
-Console.WriteLine($"Running image sorting with values\nSource: {args[0]}\nTarget: {args[1]}Regex: {args[2]}");
-ImageSorter.SortFiles(args[0], args[1], args[2]);
+Console.WriteLine("Invalid amount of arguments");

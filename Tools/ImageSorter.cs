@@ -10,8 +10,8 @@ namespace Apprentice.Personal.Tools {
     public static class ImageSorter {
 
         public static void SortFiles(string folder, string dest, string regex) {
-            DirectoryInfo source = new DirectoryInfo(folder);
-            DirectoryInfo destination = new DirectoryInfo(dest);
+            DirectoryInfo source = new(folder);
+            DirectoryInfo destination = new(dest);
             if (!source.Exists || !destination.Exists) {
                 Console.WriteLine(!source.Exists ? "Source folder doesn't exist" : "Destination folder doesn't exist");
             }
@@ -52,7 +52,7 @@ namespace Apprentice.Personal.Tools {
         }
 
         private static string Increment(string filepath) {
-            FileInfo file = new FileInfo(filepath);
+            FileInfo file = new(filepath);
             string filename = Path.GetFileNameWithoutExtension(file.FullName);
             int counter = 1;
             while (file.Exists) {
