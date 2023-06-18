@@ -62,8 +62,12 @@ namespace Apprentice.Personal.Tools {
         }
 
         public static bool CheckMatch(string imageFile, Regex regex) {
-            MetadataReader meta = new(imageFile);
-            return regex.IsMatch(meta.TextData);
+            try {
+                MetadataReader meta = new(imageFile);
+                return regex.IsMatch(meta.TextData);
+            } catch {
+                return false;
+            }
         }
 
         public static void NameContentsByDate(string directory) {
