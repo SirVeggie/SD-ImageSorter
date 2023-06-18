@@ -12,10 +12,12 @@ if (arguments == 0) {
     Console.Write($"Give source directory ({source}):\n > ");
     string sourceInput = Console.ReadLine() ?? "";
     source = string.IsNullOrWhiteSpace(sourceInput) ? source : sourceInput;
+    Console.WriteLine();
 
     Console.Write($"Give target directory ({target}):\n > ");
     string targetInput = Console.ReadLine() ?? "";
     target = string.IsNullOrWhiteSpace(targetInput) ? target : targetInput;
+    Console.WriteLine();
 
     DirectoryInfo targetInfo = new DirectoryInfo(target);
     if (!targetInfo.Exists) {
