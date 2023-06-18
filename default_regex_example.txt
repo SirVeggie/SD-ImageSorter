@@ -1,0 +1,1 @@
+(nude|sex|pussy|cum|fellatio|blow ?job)(?<!Negative prompt[\s\S]*)
