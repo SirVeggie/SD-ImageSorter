@@ -17,11 +17,13 @@ if (arguments == 0) {
     Console.Write($"Give target directory ({target}):\n > ");
     string targetInput = Console.ReadLine() ?? "";
     target = string.IsNullOrWhiteSpace(targetInput) ? target : targetInput;
+    if (!target.Contains("\\"))
+        target = $@"{source}\{target}";
     Console.WriteLine();
 
     DirectoryInfo targetInfo = new DirectoryInfo(target);
     if (!targetInfo.Exists) {
-        if (string.IsNullOrWhiteSpace(targetInput))
+        if (string.IsNullOrWhiteSpace(targetInput) || target.Contains(source))
             targetInfo.Create();
         else {
             Console.WriteLine("Target folder doesn't exist, create it manually for safety reasons");
